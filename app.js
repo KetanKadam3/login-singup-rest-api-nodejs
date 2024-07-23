@@ -5,12 +5,13 @@ const login = require("./api/Route/Login");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 mongoose.connect(
-  "mongodb+srv://newNoOne:5IsnhDTNjNXj9R7P@cluster0.hatglqm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  "mongodb+srv://ketankadam0143:1oqadJ3vGCGAWsAk@k3tan.dgmtt7c.mongodb.net/"
 );
 mongoose.connection.on("error", (err) => {
   console.log("connection failed");
