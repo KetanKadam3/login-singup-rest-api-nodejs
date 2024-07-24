@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { axiosIntance } from '../../api/axiosIntance';
 
 
 function LoginPage({setIsLogin}) {
+  const apiUrl = import.meta.env.BASE_URL;
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -17,14 +20,13 @@ function LoginPage({setIsLogin}) {
      }))
   }
 
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${process.env.BASE_URL}/login`,
-
+      const response = await axiosIntance.post(
+        `/login`,
         loginData,
-
         {
           headers: {
             "Content-Type": "application/json",
@@ -33,11 +35,16 @@ function LoginPage({setIsLogin}) {
         }
       );
 
-      alert('user successfully logged In !!')
+      setLoginData({
+        email: "",
+        password: "",
+      })
+      alert(response.data.message)
 
       console.log("Response from server:", response.data);
     } catch (err) {
       console.log(err);
+      alert(err.response.data.error)
       }
  
   };

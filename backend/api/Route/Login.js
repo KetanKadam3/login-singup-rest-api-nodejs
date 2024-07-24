@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
   }
   if (existingUser.password !== password) {
     return res.status(400).json({
-      error: "Incorrect password",
+      error: "Incorrect Credential",
     });
   }
   res.status(200).json({
