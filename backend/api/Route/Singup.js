@@ -2,14 +2,24 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const User = require("../Modules/User"); // Adjust the path as needed
-const emailValidator = require('deep-email-validator');
 const disposableEmailDomains = require('disposable-email-domains');
+const emailValidator = require('deep-email-validator');
 
 
-// Function to validate email
+
 async function isEmailValid(email) {
-  return emailValidator.validate(email);
+  try {
+    const { valid, reason, validators } = await emailValidator.validate(email);
+    if (!valid) {
+      return { valid, reason, message: validators[reason]?.reason || 'Invalid email' };
+    }
+    return { valid };
+  } catch (error) {
+    console.error('Email validation error:', error);
+    return { valid: false, message: 'Email validation service error' };
+  }
 }
+
 
 router.post("/", async (req, res) => {
   console.log(req.body); // Log the request body for debugging
