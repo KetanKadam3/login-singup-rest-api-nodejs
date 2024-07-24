@@ -1,23 +1,82 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import LoginPage from '../login page/LoginPage'
 import SignUp from '../Signup page/SignUp'
+import { createClient } from "pexels";
+
 
 function Mainlandingpage() {
     const [isLogin,setIsLogin] = useState(true)
+    const [img, setImg] = useState("");
+    const [nextImg, setNextImg] = useState("");
+    const [fade, setFade] = useState(false);
+  
+    const client = createClient(
+      "pIeMIRPMatzctU1f2MLv0sktKDvLJXOQBM6eZtfNxttgfbiXPr2MEtve"
+    );
+    const queries = ["Ocean", "Mountain", "Forest", "Desert", "City"];
+  
+    useEffect(() => {
+      let interval = setInterval(() => {
+        const randomQuery = queries[Math.floor(Math.random() * queries.length)];
+        const index = Math.floor(Math.random() * 9);
+        client.photos
+          .search({ query: randomQuery, per_page: 10 })
+          .then((photos) => {
+            setNextImg(photos.photos[index]?.src?.landscape);
+            setFade(true);
+          });
+      }, 10000);
+  
+      return () => clearInterval(interval);
+    }, [client, queries]);
+  
+    useEffect(() => {
+      if (fade) {
+        const timer = setTimeout(() => {
+          setImg(nextImg);
+          setFade(false);
+        }, 1000); // Duration of the fade transition
+  
+        return () => clearTimeout(timer);
+      }
+    }, [fade, nextImg]);
+  
   return (
-    <div style={{
-        backgroundImage:'url(https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)',
-        width:'100%',
-        // minHeight:'100vh',
-        height:'100vh',
-        backgroundRepeat:'no-repeat',
-        display:'flex',
-        backgroundSize:'cover',
-        justifyContent:'center',
-        alignItems:'center'
-
+    <div
+    style={{
+      position: "relative",
+      width: "100vw",
+      height: "100vh",
+      overflow: "hidden",
+      display:'flex',
+      justifyContent:'center',
+      alignItems:'center'
     }}
-      >
+  >
+    <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          backgroundImage: `url(${img})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          transition: "opacity 1s ease-in-out",
+          opacity: fade ? 0 : 1,
+        }}
+      ></div>
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          backgroundImage:  `url(${nextImg})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          transition: "opacity 1s ease-in-out",
+          opacity: fade ? 1 : 0,
+        }}
+      ></div>
       {isLogin ?(
     <LoginPage setIsLogin={setIsLogin}/>
 

@@ -19,9 +19,9 @@ function SignUp({ setIsLogin }) {
   };
 
   const handleSingUp = () => {
-    // if(Object.values(singUpData).includes('')){
-    //   return alert('please fill all the fields')
-    // } else{
+    if (Object.values(singUpData).includes("")) {
+      return alert("Please fill all the fields !!");
+    }
     axiosIntance
       .post(`/singup`, singUpData, {
         headers: {
@@ -39,8 +39,7 @@ function SignUp({ setIsLogin }) {
         alert(res.data.message);
       })
       .catch((err) => {
-        alert(err.response.data.error);
-        console.log(err.response.data.error);
+        alert(err.response.data.message);
       });
 
     // }
@@ -122,7 +121,7 @@ function SignUp({ setIsLogin }) {
           borderRadius: "10px",
           border: "1px solid white",
           cursor: "pointer",
-          backgroundColor: "#9C6276",
+          backgroundColor: "grey",
           color: "white",
           boxShadow: "0px 0px 5px white",
         }}
@@ -138,7 +137,7 @@ function SignUp({ setIsLogin }) {
           style={{
             backgroundColor: "transparent",
             border: "none",
-            fontSize: "14px",
+            fontSize: "16px",
             color: "black",
             padding: "5px",
             cursor: "pointer",
