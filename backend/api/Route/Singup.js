@@ -7,18 +7,18 @@ const emailValidator = require('deep-email-validator');
 
 
 
-async function isEmailValid(email) {
-  try {
-    const { valid, reason, validators } = await emailValidator.validate(email);
-    if (!valid) {
-      return { valid, reason, message: validators[reason]?.reason || 'Invalid email' };
-    }
-    return { valid };
-  } catch (error) {
-    console.error('Email validation error:', error);
-    return { valid: false, message: 'Email validation service error' };
-  }
-}
+// async function isEmailValid(email) {
+//   try {
+//     const { valid, reason, validators } = await emailValidator.validate(email);
+//     if (!valid) {
+//       return { valid, reason, message: validators[reason]?.reason || 'Invalid email' };
+//     }
+//     return { valid };
+//   } catch (error) {
+//     console.error('Email validation error:', error);
+//     return { valid: false, message: 'Email validation service error' };
+//   }
+// }
 
 
 router.post("/", async (req, res) => {
@@ -46,13 +46,13 @@ router.post("/", async (req, res) => {
     });
   }
 // Validate the email
-const { valid, reason, validators } = await isEmailValid(email);
-if (!valid) {
-  return res.status(400).send({
-    message: "Please provide a valid email address.",
-    reason: validators[reason].reason,
-  });
-}
+// const { valid, reason, validators } = await isEmailValid(email);
+// if (!valid) {
+//   return res.status(400).send({
+//     message: "Please provide a valid email address.",
+//     reason: validators[reason].reason,
+//   });
+// }
 
 
 const emailDomain = email.split('@')[1];
