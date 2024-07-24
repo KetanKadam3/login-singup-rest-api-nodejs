@@ -47,11 +47,11 @@ if (!valid) {
 
 const emailDomain = email.split('@')[1];
 
-if (disposableEmailDomains.includes(emailDomain)) {
-  return res.status(400).send({
-    message: "Please provide a valid email address.",
-  });
-} 
+// if (disposableEmailDomains.includes(emailDomain)) {
+//   return res.status(400).send({
+//     message: "Please provide a valid email address.",
+//   });
+// } 
 
   // Check if user already exists
   try {
